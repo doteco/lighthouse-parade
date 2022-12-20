@@ -8,6 +8,7 @@ export const crawl = (siteUrl, opts) => {
     if (opts.userAgent)
         crawler.userAgent = opts.userAgent;
     crawler.respectRobotsTxt = !opts.ignoreRobotsTxt;
+    crawler.parseScriptTags = false;
     if (opts.maxCrawlDepth !== undefined)
         crawler.maxDepth = opts.maxCrawlDepth;
     const initialPath = new URL(siteUrl).pathname;
@@ -15,7 +16,7 @@ export const crawl = (siteUrl, opts) => {
         ? [...opts.includePathGlob, initialPath]
         : [], opts.excludePathGlob));
     const emitWarning = (queueItem, response) => {
-        emit('warning', `Error fetching (${response.statusCode}): ${queueItem.url}`);
+        emit('warning', `Error fetching (${response.statusCode}): ${queueItem.url}; referrer: ${queueItem.referrer}`);
     };
     crawler.on('fetchcomplete', (queueItem, responseBuffer, response) => {
         const url = queueItem.url;

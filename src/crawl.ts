@@ -33,6 +33,7 @@ export const crawl = (siteUrl: string, opts: CrawlOptions) => {
   const crawler = new Crawler(siteUrl);
   if (opts.userAgent) crawler.userAgent = opts.userAgent;
   crawler.respectRobotsTxt = !opts.ignoreRobotsTxt;
+  crawler.parseScriptTags = false;
   if (opts.maxCrawlDepth !== undefined) crawler.maxDepth = opts.maxCrawlDepth;
 
   const initialPath = new URL(siteUrl).pathname;
